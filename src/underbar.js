@@ -98,6 +98,13 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniques = [];
+    for (var i = 0; i < array.length; i++) {
+      if (!uniques.includes(array[i])) {
+        uniques.push(array[i]);
+      };
+    };
+    return uniques;
   };
 
 
