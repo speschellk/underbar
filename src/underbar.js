@@ -167,19 +167,45 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    console.log("collection = " + collection)
+    console.log("iterator = " + iterator)
+    console.log("accumulator = " + accumulator)
+
+    for (var i = 0; i < collection.length; i++) {
+        iterator(collection[0], collection[i]);
+    };
   };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
+    var wasFound = false;
+
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        if (collection[i] === target) {
+          wasFound = true;
+        };
+      };
+    } else {
+      for (var key in collection) {
+        if (collection[key] === target) {
+          wasFound = true;
+        };
+      };
+    };
+    return wasFound;
+  };
+
+
+    /*return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
       }
       return item === target;
     }, false);
-  };
+  };*/
 
 
   // Determine whether all of the elements match a truth test.
