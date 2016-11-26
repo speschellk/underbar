@@ -166,14 +166,31 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function(collection, iterator, accumulator) {
-    console.log("collection = " + collection)
-    console.log("iterator = " + iterator)
-    console.log("accumulator = " + accumulator)
+  /*_.reduce = function(collection, iterator, accumulator) {
 
-    for (var i = 0; i < collection.length; i++) {
-        iterator(collection[0], collection[i]);
+    if (accumulator == undefined) {
+      accumulator = collection[0];
+      for (var key in collection) {
+        iterator(accumulator, collection[key]);
+      };
+    } else {
+      for (var key in collection) {
+        iterator(accumulator, collection[key]);
+      };
     };
+    return accumulator;
+  };*/
+  _.reduce = function(collection, iterator, accumulator){
+    var noAccum = arguments.length < 3;
+    _.each(collection, function(elem, index, collection){
+      if(noAccum) {
+        noAccum = false;
+        accumulator = elem;
+      } else {
+        accumulator = iterator(accumulator, elem, index, collection);
+      };
+    });
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -197,6 +214,7 @@
     };
     return wasFound;
   };
+
 
 
     /*return _.reduce(collection, function(wasFound, item) {
@@ -238,12 +256,17 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
+  _.extend = function(objSource, objDestination) {
+    for (var key in objSource) {
+      objDestination[key] = objSource[key];
+    };
+    return objDestination;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    return obj;
   };
 
 
