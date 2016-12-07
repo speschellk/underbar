@@ -205,14 +205,35 @@
 
 
   // Determine whether all of the elements match a truth test.
+  /*_.every = function(collection, target) {
+    if (collection = []) {
+      return true;
+    } else {
+      return _.reduce(collection, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item === target;
+      }, false);
+    };
+  };*/
+
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    iterator = iterator || _.identity;
+    return !!_.reduce(collection, function(test, item) {
+      return test && iterator(item);
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
+    return !!_.reduce(collection, function(test, item) {
+      return test || iterator(item);
+    }, false);
   };
 
 
@@ -234,16 +255,25 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(objSource, objDestination) {
-    for (var key in objSource) {
-      objDestination[key] = objSource[key];
-    };
-    return objDestination;
+  _.extend = function(obj) {
+    _.each(arguments, function(argObject) {
+      _.each(argObject, function(value, key) {
+        obj[key] = value;
+      });
+    });
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    _.each(arguments, function(argObject) {
+      _.each(argObject, function(value, key) {
+        if (obj[key] === undefined) {
+          obj[key] = value;
+        }
+      });
+    });
     return obj;
   };
 
@@ -259,22 +289,14 @@
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
   _.once = function(func) {
-    // TIP: These variables are stored in a "closure scope" (worth researching),
-    // so that they'll remain available to the newly-generated function every
-    // time it's called.
-    var alreadyCalled = false;
+    var calledBefore = false;
     var result;
 
-    // TIP: We'll return a new function that delegates to the old one, but only
-    // if it hasn't been called before.
     return function() {
-      if (!alreadyCalled) {
-        // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+      if (!calledBefore) {
         result = func.apply(this, arguments);
-        alreadyCalled = true;
+        calledBefore = true;
       }
-      // The new function always returns the originally computed result.
       return result;
     };
   };
@@ -288,6 +310,19 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    // stores the results
+    var results = {};
+
+    // checks if it has already computed the result for the given argument
+    return function() {
+      var argString = JSON.stringify(arguments);
+      if (!results[argString]) {
+        results[argString] = func.apply(this, arguments);
+      }
+
+      // returns that value instead if possible
+      return results[argString];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -297,6 +332,15 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    // snatches correct arguments after wait parameter
+    var args = Array.prototype.slice.call(arguments, 2);
+    
+    // delays a function for a given number of milliseconds
+    setTimeout(function() {
+
+      // calls it with arguments supplied
+      func.apply(this, args);
+    }, wait);
   };
 
 
@@ -311,8 +355,18 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-  };
+    var shuffled = [];
+    var arrCopy = Array.prototype.slice.call(array);
+    var random;
 
+    for (var i = 0; i < array.length; i++) {
+      random = Math.floor(Math.random() * arrCopy.length);
+      shuffled.push(arrCopy[random]);
+      arrCopy.splice(random,1);
+    }
+
+    return shuffled;
+ };
 
   /**
    * ADVANCED
