@@ -84,7 +84,7 @@
         passes.push(item);
       }
     });
-    
+
     return passes;
   };
 
@@ -92,6 +92,15 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var rejects = [];
+
+    _.each(collection, function(item) {
+      if (!_.filter(collection, test).includes(item)) {
+        rejects.push(item);
+      }
+    });
+
+    return rejects;
   };
 
   // Produce a duplicate-free version of the array.
