@@ -105,6 +105,15 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniques = [];
+
+    _.each(array, function(item) {
+      if (!uniques.includes(item)) {
+        uniques.push(item);
+      }
+    });
+
+    return uniques;
   };
 
 
