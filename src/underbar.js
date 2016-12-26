@@ -122,6 +122,13 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var results = [];
+
+    _.each(collection, function(item) {
+      results.push(iterator(item));
+    });
+
+    return results;
   };
 
   /*
@@ -209,6 +216,16 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    _.each(arguments, function(item) {
+      _.each(obj, function(key) {
+        if (obj[key] === undefined || obj[key] !== item) {
+          obj[key] = item;
+        }
+      });
+    });
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
