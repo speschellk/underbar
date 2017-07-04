@@ -366,7 +366,7 @@
   _.invoke = (collection, functionOrKey, args) => {
     return _.map(collection, (value) => {
       let func = typeof functionOrKey === "string" ? value[functionOrKey] : functionOrKey;
-      
+
       return func.apply(value, args);
     });
   };
@@ -390,7 +390,17 @@
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {
+  _.flatten = (nestedArray, result) => {
+    let flattened = [];
+
+    _.each(nestedArray, (el) => {
+      if (!Array.isArray(el)) {
+        flattened.push(el);
+      }
+      flattened = flattened.concat(_.flatten(el, result));
+    });
+
+    return flattened;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
