@@ -458,6 +458,7 @@
       _.each(args, (arr) => {
         if (_.indexOf(arr, el) !== -1) { contains = true; }
       });
+
       if (!contains) { diffs.push(el); }
     });
 
@@ -470,5 +471,17 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    let triggered = false;
+
+    return function() {
+      if (!triggered) {
+        triggered = true;
+        func.apply(Array.prototype.slice.apply(arguments));
+
+        setTimeout(function() {
+          triggered = false;
+        }, wait);
+      }
+    };
   };
 }());
