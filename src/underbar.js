@@ -430,18 +430,13 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function(array) {
-    const shared = [];
     const args = Array.prototype.slice.call(arguments, 1);
 
-    _.each(array, (el) => {
-      let contains = _.every(args, (arr) => { 
+    return _.filter(array, (el) => {
+      return _.every(args, (arr) => { 
         return _.indexOf(arr, el) !== -1; 
       });
-      
-      if (contains) { shared.push(el); } 
     });
-
-    return shared;
   };
 
   // Take the difference between one array and a number of other arrays.
