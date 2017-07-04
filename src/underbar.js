@@ -138,7 +138,7 @@
    * as an example of this.
    */
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = (collection, key) => {
@@ -375,10 +375,9 @@
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
-  _.sortBy = function(collection, iterator) {
+  _.sortBy = (collection, iterator) => {
     if (typeof iterator === "string") {
       let iter = iterator;
-
       iterator = (item) => {
         return item[iter];
       };
@@ -394,8 +393,21 @@
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {
+  _.zip = function(array) {
+    const args = Array.prototype.slice.call(arguments, 1);
+    let index;
 
+    return _.map(array, (el) => {
+      el = [el];
+      index = index || 0;
+
+      _.each(args, (array) => {
+        el.push(array[index]);
+      });
+
+      index++;
+      return el;
+    });
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
