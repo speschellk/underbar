@@ -415,16 +415,9 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = (nestedArray, result) => {
-    let flattened = [];
-
-    _.each(nestedArray, (el) => {
-      if (!Array.isArray(el)) {
-        flattened.push(el);
-      }
-      flattened = flattened.concat(_.flatten(el, result));
-    });
-
-    return flattened;
+    return _.reduce(nestedArray, (arr, el) => {
+      return arr.concat(Array.isArray(el) ? _.flatten(el) : [el]);
+    }, []);
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
