@@ -435,20 +435,13 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    const diffs = [];
     const args = Array.prototype.slice.call(arguments, 1);
 
-    _.each(array, (el) => {
-      let contains = false;
-
-      _.each(args, (arr) => {
-        if (_.indexOf(arr, el) !== -1) { contains = true; }
+    return _.filter(array, (el) => {
+      return _.every(args, (arr) => { 
+        return _.indexOf(arr, el) === -1; 
       });
-
-      if (!contains) { diffs.push(el); }
     });
-
-    return diffs;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
