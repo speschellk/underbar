@@ -6,7 +6,7 @@
   // Returns whatever value is passed as the argument. This function doesn't
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
-  _.identity = function(val) {
+  _.identity = (val) => {
     return val;
   };
 
@@ -31,13 +31,13 @@
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
-  _.first = function(array, n) {
+  _.first = (array, n) => {
     return n === undefined ? array[0] : array.slice(0, n);
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
-  _.last = function(array, n) {
+  _.last = (array, n) => {
     return n === undefined ? array[array.length - 1] : array.slice(Math.max(0, array.length - n));
   };
 
@@ -47,13 +47,13 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
 
-  _.each = function(collection, iterator) {
+  _.each = (collection, iterator) => {
     if (Array.isArray(collection)) {
-      for (var i = 0; i < collection.length; i++) {
+      for (let i = 0; i < collection.length; i++) {
         iterator(collection[i], i, collection);
       }
     } else {
-      for (var key in collection) {
+      for (let key in collection) {
         iterator(collection[key], key, collection);
       }
     }
@@ -61,27 +61,28 @@
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-  _.indexOf = function(array, target){
+  _.indexOf = (array, target) => {
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
-    var result = -1;
+    let result = -1;
 
-    _.each(array, function(item, index) {
-      if (item === target && result === -1) {
-        result = index;
+    _.each(array, (item, index) => {
+      if (item === target && result === -1) { 
+        result = index; 
       };
     });
+
     return result;
   };
 
   // Return all elements of an array that pass a truth test.
-  _.filter = function(collection, test) {
-    var passes = [];
+  _.filter = (collection, test) => {
+    const passes = [];
 
-    _.each(collection, function(item) {
-      if (test(item)) {
-        passes.push(item);
+    _.each(collection, (item) => {
+      if (test(item)) { 
+        passes.push(item); 
       }
     });
 
@@ -89,10 +90,10 @@
   };
 
   // Return all elements of an array that don't pass a truth test.
-  _.reject = function(collection, test) {
+  _.reject = (collection, test) => {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    var rejects = [];
+    const rejects = [];
 
     _.each(collection, function(item) {
       if (!_.filter(collection, test).includes(item)) {
@@ -104,8 +105,8 @@
   };
 
   // Produce a duplicate-free version of the array.
-  _.uniq = function(array) {
-    var uniques = [];
+  _.uniq = (array) => {
+    const uniques = [];
 
     _.each(array, function(item) {
       if (!uniques.includes(item)) {
@@ -118,13 +119,13 @@
 
 
   // Return the results of applying an iterator to each element.
-  _.map = function(collection, iterator) {
+  _.map = (collection, iterator) => {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
-    var results = [];
+    const results = [];
 
-    _.each(collection, function(item) {
+    _.each(collection, (item) => {
       results.push(iterator(item));
     });
 
@@ -140,11 +141,11 @@
   // Takes an array of objects and returns and array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
-  _.pluck = function(collection, key) {
+  _.pluck = (collection, key) => {
     // TIP: map is really handy when you want to transform an array of
     // values into a new array of values. _.pluck() is solved for you
     // as an example of this.
-    return _.map(collection, function(item){
+    return _.map(collection, (item) => {
       return item[key];
     });
   };
@@ -169,13 +170,12 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function(collection, iterator, accumulator) {
-   
+  _.reduce = (collection, iterator, accumulator) => {
     if (accumulator === undefined) {
       accumulator = collection[0];
       collection = collection.slice(1);
     }
-    _.each(collection, function(item) {
+    _.each(collection, (item) => {
       accumulator = iterator(accumulator, item);
     });
 
@@ -183,11 +183,9 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
-  _.contains = function(collection, target) {
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
-      }
+  _.contains = (collection, target) => {
+    return _.reduce(collection, (wasFound, item) => {
+      if (wasFound) { return true; }
       return item === target;
     }, false);
   };
@@ -207,22 +205,21 @@
     };
   };*/
 
-  _.every = function(collection, iterator) {
-
+  _.every = (collection, iterator) => {
     iterator === undefined ? iterator = _.identity : iterator = iterator;
 
-    return !!_.reduce(collection, function(test, item) {
+    return !!_.reduce(collection, (test, item) => {
       return test && iterator(item);
     }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
-  _.some = function(collection, iterator) {
+  _.some = (collection, iterator) => {
     // TIP: There's a very clever way to re-use every() here.
     iterator === undefined ? iterator = _.identity : iterator = iterator;
 
-    return !!_.reduce(collection, function(test, item) {
+    return !!_.reduce(collection, (test, item) => {
       return test || iterator(item);
     }, false);
   };
@@ -247,11 +244,9 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    _.each(arguments, function(item) {
-      _.each(item, function(value, key) {
-        if (obj[key] === undefined || obj[key] !== value) {
-          obj[key] = value;
-        }
+    _.each(Array.prototype.slice.call(arguments, 1), (object) => {
+      _.each(object, (value, key) => {
+        obj[key] = value;
       });
     });
 
@@ -261,8 +256,8 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    _.each(arguments, function(item) {
-      _.each(item, function(value, key) {
+    _.each(Array.prototype.slice.call(arguments, 1), (object) => {
+      _.each(object, (value, key) => {
         if (obj[key] === undefined) {
           obj[key] = value;
         }
