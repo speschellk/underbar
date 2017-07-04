@@ -434,13 +434,11 @@
     const args = Array.prototype.slice.call(arguments, 1);
 
     _.each(array, (el) => {
-      let contains = true;
-
-      _.each(args, (arr) => {
-        if (_.indexOf(arr, el) === -1) { contains = false; }
+      let contains = _.every(args, (arr) => { 
+        return _.indexOf(arr, el) !== -1; 
       });
-
-      if (contains) { shared.push(el); }
+      
+      if (contains) { shared.push(el); } 
     });
 
     return shared;
