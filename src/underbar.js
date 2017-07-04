@@ -376,6 +376,17 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    if (typeof iterator === "string") {
+      let iter = iterator;
+
+      iterator = (item) => {
+        return item[iter];
+      };
+    }
+
+    return collection.sort((a, b) => {
+      return iterator(a) - iterator(b);
+    });
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -384,6 +395,7 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -405,12 +417,14 @@
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
-  _.intersection = function() {
+  _.intersection = function(array) {
+
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
