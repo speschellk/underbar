@@ -338,12 +338,12 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {
-    var shuffled = [];
-    var copy = array.slice(0);
-    var randIndex;
+  _.shuffle = (array) => {
+    const shuffled = [];
+    const copy = array.slice(0);
+    let randIndex;
 
-    _.each(array, function(value, index) {
+    _.each(array, (value, index) => {
       // generate a random index
       randIndex = Math.floor(Math.random() * copy.length);
       shuffled.push(copy[randIndex]);
