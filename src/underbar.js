@@ -278,9 +278,9 @@
 
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
-  _.once = function(func) {
-    var calledBefore = false;
-    var result;
+  _.once = (func) => {
+    let calledBefore = false;
+    let result;
 
     return function() {
       if (!calledBefore) {
@@ -299,11 +299,11 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
-    var results = {};
+  _.memoize = (func) => {
+    const results = {};
 
     return function() {
-      var args = JSON.stringify(arguments);
+      const args = JSON.stringify(arguments);
       if (results[args] === undefined) {
         results[args] = func.apply(this, arguments);
       }
@@ -319,8 +319,8 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    var a = arguments[2];
-    var b = arguments[3];
+    const a = arguments[2];
+    const b = arguments[3];
 
     setTimeout(function() {
       func(a, b);
